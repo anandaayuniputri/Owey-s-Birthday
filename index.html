@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>for you ♡</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #0c0c0c;
+      --dark: #151515;
+      --white: #f2f0eb;
+      --gray: #9a9893;
+      --line: rgba(255,255,255,.14);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       GRAIN
+    ========================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: .035;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
+    }
+
+    /* =========================
+       TYPOGRAPHY
+    ========================= */
+
+    .eyebrow,
+    .section-label {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .17em;
+      color: var(--gray);
+    }
+
+    em {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    /* =========================
+       WATERMARK
+    ========================= */
+
+    .watermark {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 95;
+
+      font-family: "DM Mono", monospace;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+
+      color: rgba(255,255,255,.58);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100svh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 80px 7vw;
+
+      border-bottom: 1px solid var(--line);
+
+      position: relative;
+    }
+
+    .hero-content {
+      width: 100%;
+      max-width: 1100px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 30px 0;
+
+      font-size: clamp(52px, 9vw, 120px);
+      line-height: .86;
+      letter-spacing: -.065em;
+      font-weight: 500;
+    }
+
+    .hero h1 em {
+      font-size: 1.03em;
+    }
+
+    .hero-description {
+      color: #aaa;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .scroll-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+
+      margin-top: 65px;
+
+      color: white;
+      text-decoration: none;
+
+      border-bottom: 1px solid #666;
+      padding-bottom: 10px;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+
+      transition: .3s;
+    }
+
+    .scroll-link:hover {
+      gap: 28px;
+      border-color: white;
+    }
+
+    .side-number {
+      position: absolute;
+      right: 25px;
+      top: 50%;
+
+      writing-mode: vertical-rl;
+
+      color: #555;
+
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .15em;
+    }
+
+    /* =========================
+       MESSAGE SECTION
+    ========================= */
+
+    .message-section {
+      padding: 110px 7vw;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .photo-container {
+      width: min(760px, 100%);
+      aspect-ratio: 4 / 5;
+
+      margin: 50px auto 0;
+
+      position: relative;
+    }
+
+    .photo {
+      position: absolute;
+      inset: 0;
+
+      overflow: hidden;
+      background: #222;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      filter:
+        grayscale(100%)
+        contrast(1.04);
+    }
+
+    .photo-front {
+      box-shadow:
+        0 40px 100px rgba(0,0,0,.55);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.03) 0%,
+          rgba(0,0,0,.12) 35%,
+          rgba(0,0,0,.88) 100%
+        );
+    }
+
+    /* =========================
+       LETTER
+    ========================= */
+
+    .letter {
+      position: absolute;
+      z-index: 3;
+
+      left: 7%;
+      right: 7%;
+      bottom: 7%;
+
+      max-height: 72%;
+
+      overflow-y: auto;
+
+      padding-right: 8px;
+    }
+
+    .letter::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    .letter::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.35);
+    }
+
+    .letter-small {
+      margin-bottom: 20px;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .letter p {
+      margin-bottom: 18px;
+
+      color: #eee;
+
+      font-size: clamp(13px, 1.5vw, 16px);
+      line-height: 1.75;
+
+      text-shadow:
+        0 2px 18px rgba(0,0,0,.9);
+    }
+
+    .letter-end {
+      margin-top: 25px;
+
+      font-family: "Cormorant Garamond", serif !important;
+      font-style: italic;
+
+      font-size: 27px !important;
+      letter-spacing: .01em;
+    }
+
+    .photo-caption {
+      margin-top: 65px;
+
+      text-align: center;
+
+      color: #777;
+
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    /* =========================
+       LITTLE NOTE
+    ========================= */
+
+    .little-note {
+      padding: 110px 7vw;
+
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .little-note-inner {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .note-grid {
+      display: grid;
+
+      grid-template-columns: 1.4fr .6fr;
+
+      gap: 60px;
+
+      align-items: end;
+
+      margin-top: 45px;
+    }
+
+    .big-note {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(52px, 7.4vw, 94px);
+      line-height: .88;
+      letter-spacing: -.045em;
+      font-weight: 500;
+    }
+
+    .big-note em {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      font-style: italic;
+    }
+
+    .tiny-note {
+      border-left: 1px solid var(--line);
+
+      padding-left: 28px;
+
+      color: #888;
+
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .tiny-note span {
+      display: block;
+
+      margin-bottom: 15px;
+
+      color: white;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+    }
+
+    /* =========================
+       GIFT
+    ========================= */
+
+    #gift-toggle {
+      display: none;
+    }
+
+    .gift-section {
+      min-height: 80svh;
+
+      max-width: 1400px;
+      margin: auto;
+
+      padding: 110px 7vw;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .gift-section h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-weight: 500;
+      margin: 25px 0 35px;
+
+      font-size: clamp(58px, 9vw, 118px);
+      line-height: .82;
+      letter-spacing: -.045em;
+    }
+
+    .gift-section h2 em {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      font-style: italic;
+    }
+
+    .gift-description {
+      max-width: 430px;
+
+      color: #999;
+
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       GIFT BUTTON
+    ========================= */
+
+    .gift-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+
+      width: fit-content;
+      margin-top: 45px;
+      padding: 15px 18px 15px 16px;
+
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: .01em;
+
+      cursor: pointer;
+      overflow: hidden;
+
+      transition:
+        transform .35s ease,
+        border-color .35s ease,
+        background .35s ease,
+        box-shadow .35s ease;
+    }
+
+    .gift-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        110deg,
+        transparent 20%,
+        rgba(255,255,255,.13) 50%,
+        transparent 80%
+      );
+
+      transform: translateX(-120%);
+      transition: transform .7s ease;
+    }
+
+    .gift-button:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,.62);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 16px 40px rgba(0,0,0,.28);
+    }
+
+    .gift-button:hover::before {
+      transform: translateX(120%);
+    }
+
+    .gift-button:active {
+      transform: translateY(-1px) scale(.98);
+    }
+
+    .gift-icon {
+      width: 34px;
+      height: 34px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 50%;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: 21px;
+      line-height: 1;
+
+      transition:
+        transform .45s cubic-bezier(.2,.8,.2,1),
+        background .35s ease;
+    }
+
+    .gift-button:hover .gift-icon {
+      transform: rotate(12deg) scale(1.12);
+      background: rgba(255,255,255,.09);
+    }
+
+    .gift-arrow {
+      margin-left: 2px;
+
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+      opacity: .7;
+
+      transition:
+        transform .35s ease,
+        opacity .35s ease;
+    }
+
+    .gift-button:hover .gift-arrow {
+      transform: translate(3px, -3px);
+      opacity: 1;
+    }
+
+    /* =========================
+       SECRET OVERLAY
+    ========================= */
+
+    .secret {
+      position: fixed;
+      inset: 0;
+
+      z-index: 200;
+
+      background: #090909;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 25px;
+
+      opacity: 0;
+      visibility: hidden;
+
+      pointer-events: none;
+
+      transition:
+        opacity .5s ease,
+        visibility .5s ease;
+    }
+
+    #gift-toggle:checked ~ .secret {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* =========================
+       FLOWER SCENE
+    ========================= */
+
+    .flower-scene {
+      text-align: center;
+
+      opacity: 1;
+      transform: scale(1);
+
+      /*
+        Flower tetap muncul selama 5 detik
+        sebelum menghilang.
+      */
+      animation:
+        scene-out 1s
+        5s
+        forwards;
+    }
+
+    @keyframes scene-out {
+      to {
+        opacity: 0;
+        transform: scale(.95);
+      }
+    }
+
+    .wait-text {
+      margin-bottom: 35px;
+
+      color: #aaa;
+
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+
+      text-transform: uppercase;
+      letter-spacing: .2em;
+    }
+
+    /* =========================
+       BUCKET
+    ========================= */
+
+    .bucket {
+      width: 180px;
+      height: 240px;
+
+      position: relative;
+
+      margin: auto;
+    }
+
+    .bucket-body {
+      position: absolute;
+
+      left: 25px;
+      right: 25px;
+      bottom: 0;
+
+      height: 105px;
+
+      background: #ddd;
+
+      clip-path:
+        polygon(
+          10% 0,
+          90% 0,
+          78% 100%,
+          22% 100%
+        );
+
+      border-radius: 4px;
+    }
+
+    .bucket-rim {
+      position: absolute;
+
+      left: 20px;
+      right: 20px;
+      bottom: 92px;
+
+      height: 18px;
+
+      background: #eee;
+
+      border-radius: 50%;
+    }
+
+    /* =========================
+       STEMS
+    ========================= */
+
+    .stem {
+      position: absolute;
+
+      bottom: 0;
+
+      width: 3px;
+      height: 0;
+
+      background: #aaa;
+
+      transform-origin: bottom;
+
+      animation:
+        stem-grow
+        1.2s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+    }
+
+    .stem-1 {
+      left: 47%;
+      transform: rotate(-15deg);
+      animation-delay: .1s;
+    }
+
+    .stem-2 {
+      left: 55%;
+      transform: rotate(13deg);
+      animation-delay: .25s;
+    }
+
+    .stem-3 {
+      left: 38%;
+      transform: rotate(-25deg);
+      animation-delay: .4s;
+    }
+
+    .stem-4 {
+      left: 63%;
+      transform: rotate(25deg);
+      animation-delay: .55s;
+    }
+
+    @keyframes stem-grow {
+      to {
+        height: 125px;
+      }
+    }
+
+    /* =========================
+       FLOWERS
+    ========================= */
+
+    .flower {
+      position: absolute;
+
+      color: #f1efea;
+
+      font-size: 40px;
+
+      opacity: 0;
+
+      animation:
+        flower-bloom
+        .5s
+        ease
+        forwards;
+    }
+
+    .flower-1 {
+      left: 27%;
+      top: 18px;
+      animation-delay: 1s;
+    }
+
+    .flower-2 {
+      left: 48%;
+      top: 0;
+      animation-delay: 1.2s;
+    }
+
+    .flower-3 {
+      left: 13%;
+      top: 47px;
+      font-size: 31px;
+      animation-delay: 1.35s;
+    }
+
+    .flower-4 {
+      left: 67%;
+      top: 48px;
+      font-size: 31px;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes flower-bloom {
+      from {
+        opacity: 0;
+
+        transform:
+          scale(.1)
+          rotate(-30deg);
+      }
+
+      to {
+        opacity: 1;
+
+        transform:
+          scale(1)
+          rotate(0);
+      }
+    }
+
+    .flower-caption {
+      margin-top: 28px;
+
+      color: #999;
+
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 19px;
+
+      opacity: 0;
+
+      animation:
+        caption-in
+        .5s
+        1.7s
+        forwards;
+    }
+
+    @keyframes caption-in {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* =========================
+       SECRET MESSAGE
+    ========================= */
+
+    .secret-message {
+      position: absolute;
+
+      width: min(680px, 90%);
+
+      text-align: center;
+
+      opacity: 0;
+
+      transform: translateY(20px);
+
+      /*
+        Muncul setelah flower selesai
+        ditampilkan selama 5 detik.
+      */
+      animation:
+        message-in
+        .8s
+        5.2s
+        forwards;
+    }
+
+    @keyframes message-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .secret-message h3 {
+      margin: 25px 0 35px;
+
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(45px, 7vw, 82px);
+      line-height: .9;
+
+      letter-spacing: -.06em;
+
+      font-weight: 500;
+    }
+
+    .secret-message h3 em {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .secret-message-text {
+      max-width: 540px;
+
+      margin: auto;
+
+      color: #aaa;
+
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .secret-message-text p {
+      margin-bottom: 20px;
+    }
+
+    .secret-message-text strong {
+      color: white;
+      font-weight: 500;
+    }
+
+    .signature {
+      margin-top: 35px;
+
+      color: white;
+
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 22px;
+    }
+
+    /* =========================
+       CLOSE BUTTON
+    ========================= */
+
+    .close-secret {
+      position: absolute;
+
+      top: 25px;
+      right: 30px;
+
+      color: #999;
+
+      font-size: 32px;
+
+      cursor: pointer;
+
+      transition: .3s ease;
+    }
+
+    .close-secret:hover {
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 35px 7vw 45px;
+
+      border-top: 1px solid var(--line);
+
+      display: flex;
+      justify-content: space-between;
+
+      color: #555;
+
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      .watermark {
+        top: 9px;
+        font-size: 7px;
+      }
+
+      .hero {
+        padding: 90px 22px 60px;
+      }
+
+      .hero h1 {
+        font-size: clamp(48px, 15vw, 78px);
+        line-height: .88;
+      }
+
+      .hero-description {
+        font-size: 13px;
+      }
+
+      .side-number {
+        display: none;
+      }
+
+      .message-section,
+      .little-note,
+      .gift-section {
+        padding: 75px 22px;
+      }
+
+      .photo-container {
+        width: calc(100% - 10px);
+
+        aspect-ratio: 3 / 4;
+      }
+
+      .letter {
+        left: 7%;
+        right: 7%;
+        bottom: 6%;
+
+        max-height: 65%;
+      }
+
+      .letter p {
+        font-size: 12px;
+        line-height: 1.6;
+
+        margin-bottom: 12px;
+      }
+
+      .letter-end {
+        font-size: 21px !important;
+      }
+
+      .photo-caption {
+        font-size: 17px;
+      }
+
+      .note-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+      .big-note {
+        font-size: clamp(44px, 14vw, 70px);
+      }
+
+      .tiny-note {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+
+        padding:
+          25px 0 0;
+      }
+
+      .gift-section {
+        min-height: 70svh;
+      }
+
+      .gift-section h2 {
+        font-size:
+          clamp(50px, 15vw, 75px);
+      }
+
+      .gift-button {
+        padding: 13px 16px 13px 14px;
+        font-size: 17px;
+      }
+
+      .gift-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 19px;
+      }
+
+      .secret {
+        padding: 25px 18px;
+      }
+
+      .secret-message {
+        width: calc(100% - 20px);
+      }
+
+      .secret-message h3 {
+        font-size:
+          clamp(40px, 12vw, 65px);
+
+        margin-bottom: 28px;
+      }
+
+      .secret-message-text {
+        font-size: 13px;
+        line-height: 1.75;
+      }
+
+      .flower-caption {
+        font-size: 17px;
+      }
+
+      .close-secret {
+        top: 15px;
+        right: 20px;
+      }
+
+      footer {
+        padding:
+          25px 22px 35px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       WATERMARK
+  ========================== -->
+
+  <div class="watermark">
+    made by Rowan
+  </div>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <main class="hero">
+
+    <div class="hero-content">
+
+      <p class="eyebrow">
+        a tiny corner of the internet, just for you
+      </p>
+
+      <h1>
+        Birthday Gift,<br>
+        <em>for my sweetest one.</em>
+      </h1>
+
+      <p class="hero-description">
+        I made you something small.<br>
+        nothing too serious. Just a little reminder<br>
+        that i'm really, really glad you're here.
+      </p>
+
+      <a
+        href="#message"
+        class="scroll-link"
+      >
+        there's something for you
+        <span>↓</span>
+      </a>
+
+    </div>
+
+    <div class="side-number">
+      01 / birthday edition
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       MESSAGE
+  ========================== -->
+
+  <section
+    class="message-section"
+    id="message"
+  >
+
+    <p class="section-label">
+      01 — a little message
+    </p>
+
+
+    <div class="photo-container">
+
+      <div class="photo photo-front">
+
+        <img
+          src="assets/leowon2.jpg"
+          alt="A favorite memory together"
+          loading="lazy"
+        >
+
+        <div class="photo-overlay"></div>
+
+
+        <article class="letter">
+
+          <p class="letter-small">
+            dear you,
+          </p>
+
+          <p>
+            I hope this year is a little kinder to you.
+            I hope you get more of the things that make
+            you quietly happy, more moments that make
+            you laugh until you forget what time it is,
+            and a lot less of the things you don't deserve.
+          </p>
+
+          <p>
+            I'm not really good at making grand speeches,
+            so i'll just say.. I wasn't really expecting
+            to get this attached to you, but here we are.
+          </p>
+
+          <p>
+            So here's to another year of you being you.
+            I'll be here, cheering you on, annoying you a
+            little, and collecting way too many memories
+            with you.
+          </p>
+
+          <p class="letter-end">
+            Happy Birthday, Owey.
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+
+    <p class="photo-caption">
+      somehow, this still feels like my favorite view.
+    </p>
+
+  </section>
+
+
+  <!-- =========================
+       LITTLE NOTE
+  ========================== -->
+
+  <section class="little-note">
+
+    <div class="little-note-inner">
+
+      <p class="section-label">
+        02 — just because
+      </p>
+
+
+      <div class="note-grid">
+
+        <p class="big-note">
+          <em>
+            You make<br>
+            ordinary days<br>
+            worth looking forward to.
+          </em>
+        </p>
+
+
+        <div class="tiny-note">
+
+          <span>p.s.</span>
+
+          <p>
+            Yes, this website is ridiculously specific.
+            That's kind of the point.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       GIFT
+  ========================== -->
+
+  <!--
+    CSS-only state controller.
+    Keeping it outside the sections makes
+    the gift interaction work reliably.
+  -->
+
+  <input
+    type="checkbox"
+    id="gift-toggle"
+  >
+
+
+  <section class="gift-section">
+
+    <p class="section-label">
+      03 — one last thing
+    </p>
+
+
+    <div>
+
+      <p class="eyebrow">
+      </p>
+
+      <h2>
+        There's a little<br>
+        <em>something</em> hidden here.
+      </h2>
+
+      <p class="gift-description">
+      </p>
+
+
+      <!-- GIFT BUTTON -->
+
+      <label
+        for="gift-toggle"
+        class="gift-button"
+      >
+
+        <span class="gift-icon">
+          ✦
+        </span>
+
+        <span>
+          Open your gift
+        </span>
+
+        <span class="gift-arrow">
+          ↗
+        </span>
+
+      </label>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SECRET OVERLAY
+  ========================== -->
+
+  <div class="secret">
+
+
+    <!-- =========================
+         FLOWER ANIMATION
+    ========================== -->
+
+    <div class="flower-scene">
+
+      <p class="wait-text">
+        wait...
+      </p>
+
+
+      <div class="bucket">
+
+        <div class="stem stem-1"></div>
+        <div class="stem stem-2"></div>
+        <div class="stem stem-3"></div>
+        <div class="stem stem-4"></div>
+
+
+        <span class="flower flower-1">
+          ✿
+        </span>
+
+        <span class="flower flower-2">
+          ✿
+        </span>
+
+        <span class="flower flower-3">
+          ✿
+        </span>
+
+        <span class="flower flower-4">
+          ✿
+        </span>
+
+
+        <div class="bucket-body"></div>
+
+        <div class="bucket-rim"></div>
+
+      </div>
+
+
+      <p class="flower-caption">
+        a tiny bouquet for my beloved one
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         SECRET MESSAGE
+    ========================== -->
+
+    <div class="secret-message">
+
+      <label
+        for="gift-toggle"
+        class="close-secret"
+      >
+        ×
+      </label>
+
+
+      <p class="section-label">
+        For your eyes only
+      </p>
+
+
+      <h3>
+        One more thing<br>
+        <em>I wanted you to know.</em>
+      </h3>
+
+
+      <div class="secret-message-text">
+
+        <p>
+          I hope this year gives you more reasons to smile,
+          more little things to look forward to,
+          and everything you've been wishing for.
+        </p>
+
+        <p>
+          Most importantly,
+          <strong>I'm really lucky to have you.</strong>
+          happy birthday, baby.
+        </p>
+
+      </div>
+
+
+      <p class="signature">
+        — Rowan.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <span>
+      Made with too much thought
+    </span>
+
+    <span>
+      ♡
+    </span>
+
+    <span>
+      for you
+    </span>
+
+  </footer>
+
+
+</body>
+</html>
